@@ -1,45 +1,17 @@
 {
-  "name": "metarhia",
-  "version": "2.0.1",
+  "name": "b-os-demo",
+  "version": "0.1.0",
   "author": "Timur Shemsedinov <timur.shemsedinov@gmail.com>",
-  "description": "Metarhia Application Example",
+  "description": "B-OS Demo Application",
   "license": "MIT",
-  "keywords": [
-    "metarhia",
-    "starter",
-    "kit",
-    "cloud",
-    "impress",
-    "nodejs",
-    "example",
-    "websocket",
-    "api",
-    "application",
-    "server",
-    "rpc",
-    "soa",
-    "service",
-    "stateful",
-    "rest",
-    "restful",
-    "web",
-    "framework",
-    "router",
-    "routing",
-    "cluster",
-    "cache",
-    "http",
-    "https",
-    "websockets"
-  ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/metarhia/Example"
+    "url": "https://github.com/b-os-tech/Demo"
   },
   "bugs": {
-    "url": "https://github.com/metarhia/Example/issues"
+    "url": "https://github.com/b-os-tech/Demo/issues"
   },
-  "homepage": "https://github.com/metarhia/Example",
+  "homepage": "https://github.com/b-os-tech/Demo",
   "main": "server.js",
   "types": "types/global.d.ts",
   "scripts": {
@@ -50,7 +22,7 @@
     "db": "metasql c"
   },
   "engines": {
-    "node": "^12.9 || 14 || 16 || 17"
+    "node": "14 || 16 || 18"
   },
   "devDependencies": {
     "@types/node": "^17.0.21",
