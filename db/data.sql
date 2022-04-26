@@ -13,8 +13,8 @@ INSERT INTO "Carrier" ("name") VALUES
   ('Courier service'),
   ('Pickup from store');
 
-INSERT INTO "Product" ("name", "description", "amount", "price") VALUES
-  ('Motorola Edge 20 Pro', 'Dual-Sim 256gb, 12gb RAM, 5G', 50, 20000),
-  ('Huawei D16 Laptop', 'AMD Ryzon 5, 16gb RAM, SSD 500gb', 10, 30000),
-  ('Vitelotte potatoes', 'Violet-blue, nutty flavour, chestnuts smell', 100, 75),
-  ('Gesture chair', 'Inspired by the movement of the human body', 25, 17000);
+INSERT INTO "Product" ("name", "description", "amount", "price", "weight") VALUES
+  ('Motorola Edge 20 Pro', 'Dual-Sim 256gb, 12gb RAM, 5G', 50, 20000, 0.190),
+  ('Huawei D16 Laptop', 'AMD Ryzon 5, 16gb RAM, SSD 500gb', 10, 30000, 1.74),
+  ('Vitelotte potatoes', 'Violet-blue, nutty flavour, chestnuts smell', 100, 75, 1),
+  ('Gesture chair', 'Inspired by the movement of the human body', 25, 17000, 20);

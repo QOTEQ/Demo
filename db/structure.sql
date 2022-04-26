@@ -6,6 +6,7 @@ CREATE TABLE "Account" (
 
 ALTER TABLE "Account" ADD CONSTRAINT "pkAccount" PRIMARY KEY ("accountId");
 CREATE UNIQUE INDEX "akAccountLogin" ON "Account" ("login");
+
 CREATE TABLE "Carrier" (
   "carrierId" bigint generated always as identity,
   "name" varchar NOT NULL
@@ -13,16 +14,19 @@ CREATE TABLE "Carrier" (
 
 ALTER TABLE "Carrier" ADD CONSTRAINT "pkCarrier" PRIMARY KEY ("carrierId");
 CREATE UNIQUE INDEX "akCarrierName" ON "Carrier" ("name");
+
 CREATE TABLE "Product" (
   "productId" bigint generated always as identity,
   "name" varchar NOT NULL,
   "description" varchar NOT NULL,
   "amount" integer NOT NULL,
-  "price" integer NOT NULL
+  "price" integer NOT NULL,
+  "weight" integer NOT NULL
 );
 
 ALTER TABLE "Product" ADD CONSTRAINT "pkProduct" PRIMARY KEY ("productId");
 CREATE UNIQUE INDEX "akProductName" ON "Product" ("name");
+
 CREATE TABLE "Order" (
   "orderId" bigint generated always as identity,
   "productId" bigint NOT NULL,
@@ -37,6 +41,7 @@ ALTER TABLE "Order" ADD CONSTRAINT "pkOrder" PRIMARY KEY ("orderId");
 ALTER TABLE "Order" ADD CONSTRAINT "fkOrderProduct" FOREIGN KEY ("productId") REFERENCES "Product" ("productId");
 ALTER TABLE "Order" ADD CONSTRAINT "fkOrderBuyer" FOREIGN KEY ("buyerId") REFERENCES "Account" ("accountId");
 ALTER TABLE "Order" ADD CONSTRAINT "fkOrderCarrier" FOREIGN KEY ("carrierId") REFERENCES "Carrier" ("carrierId");
+
 CREATE TABLE "Package" (
   "packageId" bigint generated always as identity,
   "orderId" bigint NOT NULL,
@@ -46,6 +51,7 @@ CREATE TABLE "Package" (
 
 ALTER TABLE "Package" ADD CONSTRAINT "pkPackage" PRIMARY KEY ("packageId");
 ALTER TABLE "Package" ADD CONSTRAINT "fkPackageOrder" FOREIGN KEY ("orderId") REFERENCES "Order" ("orderId");
+
 CREATE TABLE "Payment" (
   "paymentId" bigint generated always as identity,
   "orderId" bigint NOT NULL,
@@ -56,6 +62,7 @@ CREATE TABLE "Payment" (
 
 ALTER TABLE "Payment" ADD CONSTRAINT "pkPayment" PRIMARY KEY ("paymentId");
 ALTER TABLE "Payment" ADD CONSTRAINT "fkPaymentOrder" FOREIGN KEY ("orderId") REFERENCES "Order" ("orderId");
+
 CREATE TABLE "Refund" (
   "refundId" bigint generated always as identity,
   "orderId" bigint NOT NULL,
@@ -66,15 +73,18 @@ CREATE TABLE "Refund" (
 
 ALTER TABLE "Refund" ADD CONSTRAINT "pkRefund" PRIMARY KEY ("refundId");
 ALTER TABLE "Refund" ADD CONSTRAINT "fkRefundOrder" FOREIGN KEY ("orderId") REFERENCES "Order" ("orderId");
+
 CREATE TABLE "Reservation" (
   "reservationId" bigint generated always as identity,
   "productId" bigint NOT NULL,
   "amount" integer NOT NULL,
+  "active" boolean NOT NULL,
   "created" timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 ALTER TABLE "Reservation" ADD CONSTRAINT "pkReservation" PRIMARY KEY ("reservationId");
 ALTER TABLE "Reservation" ADD CONSTRAINT "fkReservationProduct" FOREIGN KEY ("productId") REFERENCES "Product" ("productId");
+
 CREATE TABLE "Return" (
   "returnId" bigint generated always as identity,
   "productId" bigint NOT NULL,
@@ -84,6 +94,7 @@ CREATE TABLE "Return" (
 
 ALTER TABLE "Return" ADD CONSTRAINT "pkReturn" PRIMARY KEY ("returnId");
 ALTER TABLE "Return" ADD CONSTRAINT "fkReturnProduct" FOREIGN KEY ("productId") REFERENCES "Product" ("productId");
+
 CREATE TABLE "Session" (
   "sessionId" bigint generated always as identity,
   "accountId" bigint NOT NULL,
@@ -95,6 +106,7 @@ CREATE TABLE "Session" (
 ALTER TABLE "Session" ADD CONSTRAINT "pkSession" PRIMARY KEY ("sessionId");
 ALTER TABLE "Session" ADD CONSTRAINT "fkSessionAccount" FOREIGN KEY ("accountId") REFERENCES "Account" ("accountId");
 CREATE UNIQUE INDEX "akSessionToken" ON "Session" ("token");
+
 CREATE TABLE "Shipment" (
   "shipmentId" bigint generated always as identity,
   "packageId" bigint NOT NULL,

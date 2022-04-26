@@ -23,6 +23,7 @@ interface Product {
   description: string;
   amount: number;
   price: number;
+  weight: number;
 }
 
 interface Order {
@@ -62,6 +63,7 @@ interface Reservation {
   reservationId: number;
   productId: number;
   amount: number;
+  active: boolean;
   created: string;
 }
 
