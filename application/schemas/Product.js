@@ -5,4 +5,5 @@
   description: 'string',
   amount: 'number',
   price: 'number',
+  weight: 'number',
 });
