@@ -21,7 +21,7 @@ setTimeout(async () => {
 
 const tasks = [
   { get: '/', status: 302 },
-  { get: '/console.js' },
+  { get: '/bos.js' },
   {
     post: '/api',
     method: 'signIn',
