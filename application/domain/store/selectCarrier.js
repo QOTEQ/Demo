@@ -1,7 +1,5 @@
-({
-  async method({ order, package: postPackage }) {
-    console.log(order, postPackage);
-    const carrier = {};
-    return carrier;
-  },
-});
+async ({ order }) => {
+  const { carrierId } = order;
+  const carrier = await db.pg.select('Carrier', ['*'], { carrierId });
+  return carrier;
+};

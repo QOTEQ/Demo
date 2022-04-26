@@ -1,7 +1,5 @@
-({
-  async method({ order }) {
-    console.log(order);
-    const amount = 0;
-    return { amount };
-  },
-});
+async ({ order }) => {
+  const { productId } = order;
+  const amount = await db.pg.scalar('Product', ['amount'], { productId });
+  return { amount };
+};

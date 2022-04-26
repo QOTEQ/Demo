@@ -1,7 +1,4 @@
-({
-  async method({ order, balance }) {
-    console.log(order, balance);
-    const confirmed = true;
-    return { confirmed };
-  },
-});
+async ({ order, balance }) => {
+  const confirmed = balance.amount >= order.amount;
+  return { confirmed };
+};

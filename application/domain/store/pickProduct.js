@@ -1,7 +1,10 @@
-({
-  async method({ reservation }) {
-    console.log(reservation);
-    const postPackage = {};
-    return postPackage;
-  },
-});
+async ({ order, product }) => {
+  const { orderId, amount } = order;
+  const { weight } = product;
+  const postPackage = {
+    orderId,
+    weight: weight * amount,
+  };
+  await db.pg.insert('Package', postPackage);
+  return postPackage;
+};
