@@ -2,23 +2,19 @@
   access: 'public',
 
   async method({ name }) {
-    const { clients, processes } = domain.flow;
-
     context.client.on('close', () => {
       clients.delete(context.client);
     });
 
-    const filePath = `./application/flow/${name}.md`;
-    const src = await node.fs.promises.readFile(filePath, 'utf8');
-    const domainProcess = npm.lowscript.parseProcess(src);
-    const instance = await npm.lowscript.startProcess(domainProcess);
+    const proc = domain.runtime.flows.get(name);
+    const flow = await npm.lowscript.startProcess(proc);
 
-    instance.on('step', (step) => {
+    flow.on('step', (step) => {
       context.client.emit('demo/step', { step });
     });
 
-    processes.set(context.client, instance);
-    clients.set(instance, context.client);
+    domain.flow.processes.set(context.client, instance);
+    domain.flow.clients.set(instance, context.client);
 
     return { success: true };
   },
