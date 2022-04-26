@@ -37,9 +37,9 @@
 
 # Return payment
 
-* `returnPayment(Payment): Refund`
+* `refundPayment(Payment): Refund`
 
 # Shipping by carrier
 
-* `selectCarrier(Order, Package): Carrier`
+* `selectCarrier(Order): Carrier`
 * `makeShipment(Package, Carrier): Shipment`
