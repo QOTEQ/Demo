@@ -43,7 +43,7 @@ const dm = {
     codeEditorShown:true,
     autocomleteShown:false,
     processes:[
-      {name:'Order product', url:'Order product'}
+      {name:'Order product', url:'Store'}
     ],
     subprocesses:[],
     selectedProcessIndex:0,
@@ -79,7 +79,7 @@ const dm = {
         this.initCodeEditor();
 
         this.elements.processRunButton.addEventListener('click', this.runProcess.bind(this));
-        this.runProcess();
+        // this.runProcess();
         // dialogs.alert('Test');
         // console.log(parser.parseScript(this.text));
     },
