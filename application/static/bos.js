@@ -22,8 +22,22 @@ window.addEventListener('load', async () => {
     if (res.token) {
       localStorage.setItem('metarhia.session.token', res.token);
     }
-    api.bos.on('form', (step) => {
+    api.bos.on('form', ({ step }) => {
       console.log(JSON.stringify(step));
+      let data = {};
+      if (step.command === 'Form `Order`') {
+        data = {
+          product: 'Motorola Edge 20 Pro',
+          carrier: 'Postal service',
+          amount: 2,
+        };
+      }
+      if (step.command === 'Form `Payment`') {
+        data = {
+          amount: 20000,
+        };
+      }
+      api.bos.formSubmit({ name: step.command, data });
     });
 
     api.bos.on('step', (step) => {
