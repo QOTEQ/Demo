@@ -11,7 +11,6 @@
     const { model } = application.schemas;
     const { Runtime } = npm.lowscript;
     const flow = new Runtime({ processes, procedures, model });
-    //console.log({ flow });
 
     flow.on('step', (step) => {
       context.client.emit('demo/step', { step });
@@ -28,7 +27,9 @@
     });
 
     flow.on('form/show', (step) => {
-      context.client.emit('bos/form', { step });
+      console.log({ model });
+      const form = model.entities.get('OrderForm').fields;
+      context.client.emit('bos/form', { step, form });
       console.log({ 'form/show': step });
 
       let data = {};

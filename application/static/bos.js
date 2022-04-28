@@ -25,7 +25,7 @@ window.addEventListener('load', async () => {
     api.bos.on('form', (step) => {
       console.log({ step });
     });
-    // await api.bos.startFlow({ name: 'Store' });
+    await api.bos.startFlow({ name: 'Order product' });
   }
   await window.dm.loadData();
 });
