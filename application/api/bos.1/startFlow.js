@@ -27,14 +27,21 @@
     });
 
     flow.on('form/show', (step) => {
-      const form = model.entities.get('OrderForm').fields;
-      context.client.emit('bos/form', { step, form });
+      console.log({ step });
+      if (step.command === 'Form `Order`') {
+        const form = model.entities.get('OrderForm').fields;
+        context.client.emit('bos/form', { step, form });
+      }
+      if (step.command === 'Form `Payment`') {
+        const form = model.entities.get('PaymentForm').fields;
+        context.client.emit('bos/form', { step, form });
+      }
       console.log({ 'form/show': step });
     });
 
     flow.exec(name).catch((err) => {
       console.error(err);
-      context.client.emit('flows/error', err);
+      context.client.emit('bos/error', err);
     });
 
     domain.runtime.flows.set(context.client, flow);
