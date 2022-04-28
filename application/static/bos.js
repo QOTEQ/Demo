@@ -23,8 +23,21 @@ window.addEventListener('load', async () => {
       localStorage.setItem('metarhia.session.token', res.token);
     }
     api.bos.on('form', (step) => {
-      console.log({ step });
+      console.log(JSON.stringify(step));
     });
+
+    api.bos.on('step', (step) => {
+      console.log(JSON.stringify(step));
+    });
+
+    api.bos.on('notify', (notify) => {
+      console.log(JSON.stringify(notify));
+    });
+
+    api.bos.on('invoke', (invoke) => {
+      console.log(JSON.stringify(invoke));
+    });
+
     await api.bos.startFlow({ name: 'Order product' });
   }
   await window.dm.loadData();
