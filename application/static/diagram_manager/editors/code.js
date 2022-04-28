@@ -105,7 +105,7 @@ class codeEditor{
 
   updateLineNumbers(count){
 
-    this.elements.lineNumners.innerHTML = new Array(count).fill().map((_, index)=>`${index+1}.`).join('<br>');
+    this.elements.lineNumners.innerHTML = new Array(count).fill().map((_, index)=>`${index+1}.`).join('<br>'); //..[...Array(1000).keys()]
     const box = this.elements.lineNumners.getBoundingClientRect();
     this.elements.codeEditorInput.style.paddingLeft = box.width + 'px';
   }
