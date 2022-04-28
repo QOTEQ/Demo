@@ -22,6 +22,10 @@ window.addEventListener('load', async () => {
     if (res.token) {
       localStorage.setItem('metarhia.session.token', res.token);
     }
+    api.bos.on('form', (step) => {
+      console.log({ step });
+    });
+    await api.bos.startFlow({ name: 'Order product' });
   }
   await window.dm.loadData();
 });
