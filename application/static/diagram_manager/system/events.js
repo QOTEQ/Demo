@@ -7,7 +7,7 @@ const events = {
   },
 
   listen(name, callback){
-      document.addEventListener(name, callback);
+      document.addEventListener(name, (e)=>callback(e.detail));
   },
 
   remove(name, callback){
