@@ -23,4 +23,5 @@ window.addEventListener('load', async () => {
       localStorage.setItem('metarhia.session.token', res.token);
     }
   }
+  await window.dm.loadData();
 });
