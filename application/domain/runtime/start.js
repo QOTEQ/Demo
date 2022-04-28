@@ -1,6 +1,6 @@
 async () => {
+  domain.runtime.processes = {};
   domain.runtime.clients = new Map();
-  domain.runtime.processes = new Map();
   domain.runtime.flows = new Map();
 
   const dirPath = './application/flow/';

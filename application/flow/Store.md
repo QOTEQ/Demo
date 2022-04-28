@@ -13,8 +13,8 @@
   + Notify "The product was successfully sent"
   - Notify "The product was not sent"
 * Finalization
-  + Product feedback
-  + Service feedback
+  + Notify "Please provide product feedback"
+  + Notify "Please provide service feedback"
 
 # Reservation
 
@@ -24,8 +24,8 @@
 
 # Pick up from the warehouse
 
-* `pickProduct(Reservation): Package`
-* `removeReservation(Reservation)`
+* `pickProduct(Order): Package`
+  - `removeReservation(Reservation): Reservation`
 
 # Return to the warehouse
 
