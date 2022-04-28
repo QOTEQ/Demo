@@ -13,16 +13,16 @@
     const flow = new Runtime({ processes, procedures, model });
 
     flow.on('step', (step) => {
-      context.client.emit('demo/step', { step });
+      context.client.emit('bos/step', { step });
     });
 
     flow.on('notify', (step) => {
-      context.client.emit('notify', { step });
+      context.client.emit('bos/notify', { step });
       console.log({ step });
     });
 
     flow.on('invoke', (data) => {
-      context.client.emit('invoke', { invoke: data });
+      context.client.emit('bos/invoke', { invoke: data });
       console.log({ invoke: data });
     });
 
