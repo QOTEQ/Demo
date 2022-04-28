@@ -1,10 +1,14 @@
-async ({ order, product }) => {
-  const { orderId, amount } = order;
+async ({ order }) => {
+  const { orderId, amount, productId } = order;
+  const product = await db.pg.row('Product', ['*'], { productId });
   const { weight } = product;
   const postPackage = {
     orderId,
     weight: weight * amount,
   };
-  await db.pg.insert('Package', postPackage);
-  return postPackage;
+  const { rows } = await db.pg
+    .insert('Package', postPackage)
+    .returning('packageId');
+  const { packageId } = rows[0];
+  return { ...postPackage, packageId };
 };
