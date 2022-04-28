@@ -9,4 +9,8 @@ async () => {
     const name = node.path.basename(file, '.md');
     await domain.runtime.load({ name });
   }
+
+  const orderForm = application.schemas.model.entities.get('OrderForm');
+  orderForm.fields.carrier = await db.pg.select('Carrier');
+  orderForm.fields.product = await db.pg.select('Product');
 };
