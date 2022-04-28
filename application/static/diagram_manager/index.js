@@ -89,14 +89,16 @@ const dm = {
       this.fetchProcess(this.selectedProcessIndex);
     },
 
-    runProcess(){
-      const test = document.getElementById('test_component')
-      dialogs.open(test, {title:'Test title', buttons:[
-        {text:'Custom', callback:()=>{
-          this.test();
-          dialogs.close();
-        }}]
-      });
+    async runProcess(){
+      const name = this.processes[this.selectedProcessIndex].url;
+      const fetched = await window.api.bos.startFlow({ name:'Order product\r' });
+      // const test = document.getElementById('test_component')
+      // dialogs.open(test, {title:'Test title', buttons:[
+      //   {text:'Custom', callback:()=>{
+      //     this.test();
+      //     dialogs.close();
+      //   }}]
+      // });
     },
 
     test(){
