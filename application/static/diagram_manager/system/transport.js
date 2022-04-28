@@ -8,7 +8,13 @@ const transport = {
 
   init(){
       this.endpoint = window.api ? window.api : null;
-      // console.log(window.api)
+      if (!window.api || !window.api.bos || !window.api.store) return console.error('BOS and store APIs are not available');
+      window.api.bos.on('form', (step) => {
+        events.emit('form', step);
+      });
+      // window.api.bos.on('step', (step) => {
+      //   events.emit('step', step);
+      // });
   },
 
   async send(method, data, store = false){

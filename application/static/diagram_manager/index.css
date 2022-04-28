@@ -13,7 +13,7 @@ html, body {
     min-height: 100vh;
 
     background:#424143;
-    font-family: Roboto;
+    font-family: Roboto, Arial, Helvetica, sans-serif;
     color:#ffffff;
 }
 
@@ -325,9 +325,21 @@ table {
     text-align: left;
 }
 
+#form_component{
+    padding: 1rem;
 
+}
 
+#form_component label{
+    display: block;
+    margin-bottom: .5rem;
+    text-transform: capitalize;
+    font-weight: normal;
+}
 
+#form_component input, #form_component select{
+    margin-bottom: 1rem;
+}
 
 
 

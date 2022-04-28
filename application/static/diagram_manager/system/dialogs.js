@@ -28,6 +28,7 @@ const dialogs = {
       // return console.log(this.element);
       this.elements.modalDialogBody.appendChild(this.element);
       this.elements.modalDialogHeaderTitle.innerHTML = config.title || '';
+      this.elements.modalDialogHeaderButtonClose.classList.remove('display-none');
 
       if (config.buttons){
         this.elements.modalDialogDefaultButtons.classList.add('display-none');
@@ -39,6 +40,11 @@ const dialogs = {
           // return buttonElement;
         })
       }
+      if (config.close !== undefined && !config.close){
+        this.elements.modalDialogHeaderButtonClose.classList.add('display-none');
+      }
+
+
 
       this.elements.modalDialogBackground.classList.add('active');
   },
