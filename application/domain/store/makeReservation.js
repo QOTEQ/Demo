@@ -6,9 +6,9 @@ async ({ order, balance, availability }) => {
   const { productId } = order;
 
   const rest = balance.amount - order.amount;
-  await db.pg.update('Product', { productId }, { amount: rest });
+  await db.pg.update('Product', { amount: rest }, { productId });
 
-  const reservation = { productId, amount: order.amount };
+  const reservation = { productId, amount: order.amount, active: true };
   await db.pg.insert('Reservation', reservation);
 
   return reservation;
