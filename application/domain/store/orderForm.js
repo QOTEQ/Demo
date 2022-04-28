@@ -9,7 +9,6 @@ async ({ orderForm }) => {
     created: new Date(),
   };
   const { rows } = await db.pg.insert('Order', order).returning('orderId');
-  console.log({ ORD: rows });
   const { orderId } = rows[0];
   const record = await db.pg.row('Order', ['*'], { orderId });
   return record;
