@@ -2,11 +2,116 @@
 <html>
 <head>
   <title>B-OS Demo Application</title>
+  <link rel="icon" href="/favicon.png" sizes="any" type="image/png">
   <meta charset="utf-8">
   <meta http-equiv="Content-Security-Policy" content="connect-src 'self' wss:">
+
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jointjs/3.4.4/joint.css" />
+  <link rel="stylesheet" type="text/css" href="/diagram_manager/index.css" />
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.4.0/backbone.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jointjs/3.4.4/joint.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dagre/0.8.5/dagre.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/graphlib/2.1.8/graphlib.min.js"></script>
+  <script src="https://unpkg.com/@popperjs/core@2"></script>
+
+
+
+  <script src="diagram_manager/index.js" type="module"></script>
   <script src="bos.js" type="module"></script>
+
+
 </head>
-<body>
-B-OS Demo Application
+    <body>
+      <div id="app">
+        <div id="top-header">
+            <div id="top-logo">
+              <img  src="/favicon.png" alt="B-OS Logo" >
+            </div>
+            <div id="top-menu">
+                <a class="router-link" data-href="Main" onclick="dm.router.goto('Main')">Main</a>
+                <a class="router-link" data-href="Diagram" onclick="dm.router.goto('Diagram')">Diagram</a>
+                <a class="router-link" data-href="Table" onclick="dm.router.goto('Table')">Table</a>
+            </div>
+        </div>
+        <div id="router-view">
+          <div id="main-view" class="view-container">
+            Main View
+            <!-- <table></table> -->
+          </div>
+
+          <div id="diagram-view" class="view-container">
+            <div id="diagram-paper-container">
+              <div id="diagram-header-container">
+                  <div id="diagram-header"></div>
+                  <div id="right-top-panel">
+                    <div><button id="process-run-button">Run</button></div>
+                    <div><button id="process-save-button">Save</button></div>
+                    <div>
+                      <select id="processes-select">
+                        <option value="/Processes/Order product.md">Order product</option>
+                      </select>
+                    </div>
+                    <div id="diagram-scale">1.0</div>
+                  </div>
+
+              </div>
+              <div id="diagram-paper"></div>
+
+          </div>
+          <div id="diagram-text-input-container">
+              <div id="diagram-text-input-line-number">
+
+              </div>
+              <textarea id="diagram-text-input" wrap='off'>
+
+              </textarea>
+              <!-- <div id="diagram-text-input" contenteditable="true" style="overflow:scroll">
+
+              </div> -->
+              <div id="diagram-text-input-autocomplete"></div>
+              <button id="diagram-code-editor-button-close" class="floating-button">close</button>
+          </div>
+          <button id="diagram-code-editor-button-open" class="floating-button">open</button>
+          </div>
+          <div id="table-view" class="view-container">
+             <div id="entities-list">
+                  <div class="active">Account</div>
+                  <div>Carrier</div>
+             </div>
+             <div id="entity-table-container">
+               <!-- <div id="entity-table-header">Account</div> -->
+                <table id="entity-table">
+                    <thead id="entity-table-header"><th>test1</th><th>test2</th></thead>
+                    <tbody id="entity-table-body"><tr><td>one</td><td>two</td></tr></tbody>
+                </table>
+             </div>
+          </div>
+
+
+        </div>
+        <div id="modal-dialog-background" class="modal-dialog-background ">
+          <div id="modal-dialog" class="modal-dialog">
+            <div id="modal-dialog-header">
+              <div id="modal-dialog-header-title">Modal Dialog</div>
+              <button id="modal-dialog-header-button-close">X</button>
+            </div>
+            <div id="modal-dialog-body"></div>
+            <div id="modal-dialog-footer">
+              <div id="modal-dialog-custom-buttons"></div>
+              <div id="modal-dialog-default-buttons">
+                <button id="modal-dialog-button-cancel">Cancel</button>
+                <button id="modal-dialog-button-ok">Ok</button>
+              </div>
+            </div>
+        </div>
+      </div>
+      <div id="hidden-elements">
+          <div id="test_component">test component</div>
+
+      </div>
 </body>
 </html>
