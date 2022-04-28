@@ -47,9 +47,15 @@
       flow.emit('form/submit', data);
     });
 
-    await flow.exec(name);
+    await flow.exec(name).catch((err) => {
+      console.error(err);
+      context.client.emit('flows/error', err);
+    });
 
-    domain.runtime.processes.set(context.client, flow);
+    // set is not a function
+    // Runtime.prototype.processes = {} -> lowscript/runtime.js
+    // domain.runtime.processes.set(context.client, flow);
+    console.dir({ processes: domain.runtime.processes });
     domain.runtime.clients.set(flow, context.client);
 
     return { success: true };
