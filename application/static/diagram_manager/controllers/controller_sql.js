@@ -1,27 +1,16 @@
 /* eslint-disable */
-import BaseCodeEditor from "../editors/baseCodeEditor.js";
+import BaseCodeEditor from '../editors/baseCodeEditor.js';
 
 class controllerSql {
-
-
-
-
   constructor(id, modules) {
-
     this.id = id;
     this.modules = modules;
-    this.elements = {
+    this.elements = {};
 
-    };
+    const value = `SELECT * FROM 'Order';`;
 
-    const value =
-`SELECT * FROM 'Order';`;
-
-    this.codeEditor = new BaseCodeEditor(id, modules, {mode:'sql', value});
-
-
+    this.codeEditor = new BaseCodeEditor(id, modules, { mode: 'sql', value });
   }
-
 }
 
 export default controllerSql;

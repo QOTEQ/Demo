@@ -1,55 +1,51 @@
 /* eslint-disable */
 
 class FlowMarkdownEditor {
+  constructor(id, modules, config = {}) {
+    const element = document.getElementById(id);
 
-    constructor(id, modules, config = {}){
+    if (!element) return console.error('element not found');
 
-      const element = document.getElementById(id);
+    this.id = id;
+    this.modules = modules;
+    const theme = this.modules.store.get('CodeMirrorTheme') || 'darcula';
 
-      if (!element) return console.error('element not found');
+    const options = {
+      value: ``,
+      mode: 'markdown',
+      theme: theme,
+      lineNumbers: true,
+      lineWrapping: true,
+      highlightFormatting: true,
+      extraKeys: { 'Ctrl-Space': 'autocomplete' },
+      gutters: ['CodeMirror-lint-markers'],
+      lint: true,
+    };
 
-      this.id = id;
-      this.modules = modules;
-      const theme = this.modules.store.get('CodeMirrorTheme') || 'darcula';
+    this.markdownCodeMirror = window.CodeMirror(element, options);
 
-      const options = {
-        value:``,
-        mode:  "markdown",
-        theme:theme,
-        lineNumbers:true,
-        lineWrapping: true,
-        highlightFormatting:true,
-        extraKeys: {"Ctrl-Space": "autocomplete"},
-        gutters: ["CodeMirror-lint-markers"],
-        lint: true,
-      }
+    this.markdownCodeMirror.on('change', this.valueChanged.bind(this));
 
-      this.markdownCodeMirror = window.CodeMirror(element, options);
+    this.modules.events.listen(
+      'code-mirror:theme:change',
+      this.setTheme.bind(this)
+    );
+  }
 
-      this.markdownCodeMirror.on('change', this.valueChanged.bind(this));
+  setValue(text) {
+    this.markdownCodeMirror.setValue(text);
+  }
 
-      this.modules.events.listen('code-mirror:theme:change', this.setTheme.bind(this));
+  valueChanged(cm, change) {
+    console.log(change);
+    this.modules.events.emit(this.id + ':input:change', {
+      text: cm.getValue(),
+    });
+  }
 
-    }
-
-    setValue(text){
-      this.markdownCodeMirror.setValue(text);
-    }
-
-    valueChanged(cm, change){
-      console.log(change)
-      this.modules.events.emit(this.id + ':input:change', {text:cm.getValue()});
-
-    }
-
-    setTheme(theme){
-      this.markdownCodeMirror.setOption('theme', theme);
-    }
-
-
-
-
-
+  setTheme(theme) {
+    this.markdownCodeMirror.setOption('theme', theme);
+  }
 }
 
 export default FlowMarkdownEditor;

@@ -1,21 +1,13 @@
 /* eslint-disable */
-import BaseCodeEditor from "../editors/baseCodeEditor.js";
+import BaseCodeEditor from '../editors/baseCodeEditor.js';
 
 class controllerCss {
-
-
-
-
   constructor(id, modules) {
-
     this.id = id;
     this.modules = modules;
-    this.elements = {
+    this.elements = {};
 
-    };
-
-    const value =
-`/* Some example CSS */
+    const value = `/* Some example CSS */
 
 @import url("something.css");
 
@@ -50,11 +42,11 @@ code {
 }
 `;
 
-    this.codeEditor = new BaseCodeEditor(id, modules, {mode:'text/css', value});
-
-
+    this.codeEditor = new BaseCodeEditor(id, modules, {
+      mode: 'text/css',
+      value,
+    });
   }
-
 }
 
 export default controllerCss;

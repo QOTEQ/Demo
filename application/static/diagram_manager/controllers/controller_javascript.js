@@ -1,31 +1,25 @@
 /* eslint-disable */
-import BaseCodeEditor from "../editors/baseCodeEditor.js";
+import BaseCodeEditor from '../editors/baseCodeEditor.js';
 
 class controllerJavascript {
-
-
   constructor(id, modules) {
-
     this.id = id;
     this.modules = modules;
-    this.elements = {
+    this.elements = {};
 
-    };
-
-    const value =
-`/*
+    const value = `/*
 * Demonstration of code folding
 */
 function myScript(){
   return 100;
 }
-\n`
+\n`;
 
-    this.codeEditor = new BaseCodeEditor(id, modules, {mode:'javascript', value});
-
-
+    this.codeEditor = new BaseCodeEditor(id, modules, {
+      mode: 'javascript',
+      value,
+    });
   }
-
 }
 
 export default controllerJavascript;

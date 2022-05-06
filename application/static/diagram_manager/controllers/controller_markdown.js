@@ -1,18 +1,13 @@
 /* eslint-disable */
-import BaseCodeEditor from "../editors/baseCodeEditor.js";
+import BaseCodeEditor from '../editors/baseCodeEditor.js';
 
 class controllerMarkdown {
-
   constructor(id, modules) {
-
     this.id = id;
     this.modules = modules;
-    this.elements = {
+    this.elements = {};
 
-    };
-
-    const value =
-`# Foo
+    const value = `# Foo
 ## Bar
 
 blah blah
@@ -25,11 +20,11 @@ blah blah
 
 blah blah`;
 
-    this.codeEditor = new BaseCodeEditor(id, modules, {mode:'markdown', value});
-
-
+    this.codeEditor = new BaseCodeEditor(id, modules, {
+      mode: 'markdown',
+      value,
+    });
   }
-
 }
 
 export default controllerMarkdown;

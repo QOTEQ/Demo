@@ -1,21 +1,13 @@
 /* eslint-disable */
-import BaseCodeEditor from "../editors/baseCodeEditor.js";
+import BaseCodeEditor from '../editors/baseCodeEditor.js';
 
 class controllerJson {
-
-
-
-
   constructor(id, modules) {
-
     this.id = id;
     this.modules = modules;
-    this.elements = {
+    this.elements = {};
 
-    };
-
-    const value =
-`{
+    const value = `{
   "@context": {
     "name": "http://schema.org/name",
     "description": "http://schema.org/description",
@@ -43,11 +35,11 @@ class controllerJson {
   }
 }`;
 
-    this.codeEditor = new BaseCodeEditor(id, modules, {mode:'application/ld+json', value});
-
-
+    this.codeEditor = new BaseCodeEditor(id, modules, {
+      mode: 'application/ld+json',
+      value,
+    });
   }
-
 }
 
 export default controllerJson;
