@@ -1,21 +1,13 @@
 /* eslint-disable */
-import BaseCodeEditor from "../editors/baseCodeEditor.js";
+import BaseCodeEditor from '../editors/baseCodeEditor.js';
 
 class controllerHtml {
-
-
-
-
   constructor(id, modules) {
-
     this.id = id;
     this.modules = modules;
-    this.elements = {
+    this.elements = {};
 
-    };
-
-    const value =
-`<html style="color: green">
+    const value = `<html style="color: green">
 <!-- this is a comment -->
 <head>
   <title>Mixed HTML Example</title>
@@ -38,11 +30,11 @@ class controllerHtml {
 </body>
 </html>`;
 
-    this.codeEditor = new BaseCodeEditor(id, modules, {mode:'text/html', value});
-
-
+    this.codeEditor = new BaseCodeEditor(id, modules, {
+      mode: 'text/html',
+      value,
+    });
   }
-
 }
 
 export default controllerHtml;
