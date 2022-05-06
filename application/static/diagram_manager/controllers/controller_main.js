@@ -1,21 +1,10 @@
 /* eslint-disable */
 
-const controllerMain = {
-
-  modules:{},
-  elements: {
-
-  },
-
-  init(modules) {
-
-      this.modules = modules;
-
-
-
+class controllerMain {
+  constructor(id, modules) {
+    this.modules = modules;
+    this.elements = {};
   }
-
-
 }
 
 export default controllerMain;
