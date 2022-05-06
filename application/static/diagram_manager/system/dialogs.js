@@ -20,6 +20,7 @@ const dialogs = {
   parent:null,
   init(){
     this.elements.modalDialogHeaderButtonClose.addEventListener('click', this.close.bind(this))
+    this.elements.modalDialogButtonOk.addEventListener('click', this.close.bind(this))
   },
   open(element, config = {}){
 
@@ -55,18 +56,30 @@ const dialogs = {
       this.element = null;
       this.parent = null;
     }
+    this.elements.modalDialogBody.innerHTML = '';
+    this.elements.modalDialogHeaderTitle.innerHTML = '';
     this.elements.modalDialogCustomButtons.innerHTML = '';
     this.elements.modalDialogDefaultButtons.classList.remove('display-none');
+    this.elements.modalDialogButtonCancel.classList.remove('display-none');
+    this.elements.modalDialogButtonOk.classList.remove('display-none');
     this.elements.modalDialogBackground.classList.remove('active');
   },
   alert(text, config = {}){
     this.elements.modalDialogBody.innerHTML = text || '';
     this.elements.modalDialogHeaderTitle.innerHTML = config.title || 'Alert';
+    if (config.buttons) {
+      if (!config.buttons.cancel) this.elements.modalDialogButtonCancel.classList.add('display-none');
+      if (!config.buttons.ok) this.elements.modalDialogButtonOk.classList.add('display-none');
+    }
     this.elements.modalDialogBackground.classList.add('active', 'alert');
   },
   error(text, config = {}){
     this.elements.modalDialogHeaderTitle.innerHTML = config.title || 'Error';
     this.elements.modalDialogBody.innerHTML = text || '';
+    if (config.buttons) {
+      if (!config.buttons.cancel) this.elements.modalDialogButtonCancel.classList.add('display-none');
+      if (!config.buttons.ok) this.elements.modalDialogButtonOk.classList.add('display-none');
+    }
     this.elements.modalDialogBackground.classList.add('active', 'error');
   }
 };
