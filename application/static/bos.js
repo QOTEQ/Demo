@@ -22,22 +22,23 @@ window.addEventListener('load', async () => {
     if (res.token) {
       localStorage.setItem('metarhia.session.token', res.token);
     }
-
-    api.bos.on('error', (error) => {
-      console.log(error);
-    });
-
-    api.bos.on('step', (step) => {
-      console.log(JSON.stringify(step));
-    });
-
-    api.bos.on('notify', (notify) => {
-      console.log(JSON.stringify(notify));
-    });
-
-    api.bos.on('invoke', (invoke) => {
-      console.log(JSON.stringify(invoke));
-    });
   }
-  await window.dm.loadData();
+
+  api.bos.on('error', (error) => {
+    console.log(error);
+  });
+
+  api.bos.on('step', (step) => {
+    console.log(JSON.stringify(step));
+  });
+
+  api.bos.on('notify', (notify) => {
+    console.log(JSON.stringify(notify));
+  });
+
+  api.bos.on('invoke', (invoke) => {
+    console.log(JSON.stringify(invoke));
+  });
+
+  window.dm.initTransport(api);
 });

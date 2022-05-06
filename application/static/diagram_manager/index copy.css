@@ -27,71 +27,11 @@ html, body {
     align-items: center; */
 }
 
-#main-screen{
-    width: 100%;
-    height: 100%;
-    min-height:100%;
-    /* position: relative; */
-
-    flex-grow:1;
-    /* background: green; */
-     display:flex;
-    /* flex-direction:column; */
-    /* overflow-x:hidden; */
-}
-
-#side-panel{
-    /* background:grey; */
-    min-width: 250px;
-    border-right:var(--main-border);
-}
-
-/* JSTREE */
-
-.jstree-default-dark {
-    background: transparent;
-}
-
-.jstree-default-dark .jstree-clicked {
-    /* background: transparent; */
-    background: var(--dark-green-color);
-    /* color: #000000; */
-    border-radius: 2px;
-    box-shadow: inset 0 0 1px #666666;
-}
-
-.jstree-default-dark .jstree-icon:empty {
-    /* width: 16px;
-    height: 16px;
-    margin-top: 4px; */
-      /* line-height: 4px; */
-}
-
-.jstree-themeicon{
-    /* width: 12px;
-    height: 12px; */
-}
-
-.jstree-themeicon-custom{
-    background-size: contain!important;
-    width: 16px!important;
-    height: 16px!important;
-    margin-top: 4px!important;
-}
-
-.jstree-node.jstree-leaf a{
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-    max-width: 200px;
-}
-
-
 
 
 #router-view{
     width: 100%;
-    /* height: 100%; */
+    height: 100%;
     min-height:100%;
     position: relative;
 
@@ -231,39 +171,26 @@ html, body {
 }
 
 #diagram-code-editor-container{
-    box-sizing: border-box;
-    /* border-top: var(--main-border); */
-    position: absolute;
-    left:0;
-    width:50%;
+    border-top: var(--main-border);
+    position: relative;
     height:100%;
 
 }
-#diagram-code-editor-divider{
-    position: absolute;
-    right:0;
-    width: 2px;
-    height: 100%;
-    background: transparent;
-    /* z-index: 1; */
-}
-#diagram-code-editor-divider:hover{
-    background: #227bd4;
-    outline: 2px solid #227bd4;
-}
-
 
 #diagram-code-editor{
     position:absolute;
     width: 100%;
     height:100%;
-    left:0;
+    bottom:0;
 }
 
 
 .horizontal-section-divider{
     cursor: ns-resize;
-
+    position: absolute;
+    top:0;
+    height: 2px;
+    background: red;
 }
 
 
@@ -272,6 +199,80 @@ html, body {
 }
 
 
+.code-editor-container{
+    /* box-sizing: border-box; */
+    position:absolute;
+    width: 100%;
+    height:100%;
+    display: flex;
+    /* color: #e6c456;
+    color: #ff1a00; */
+    background:#424143;
+    color: var(--light-green-color);
+    /* border: 2px inset #cdcdcd; */
+}
+
+.code-editor-line-numbers{
+    position:absolute;
+    box-sizing: border-box;
+    min-width: 0.7rem;
+    padding: 0.7rem;
+    height: 100%;
+    overflow-y: hidden;
+    user-select: none;
+    text-align: right;
+    color: var(--dark-green-color);
+    /* overflow-y: auto; */
+    /* background: #cdcdcd; */
+}
+
+
+.code-editor-input{
+    /* border: none; */
+    box-sizing: border-box;
+    /* width: 100%;
+    height: 100%; */
+    flex-grow: 1;
+    padding: 0.7rem 0.7rem 0.7rem 2rem;
+    background:#424143;
+    color: var(--light-green-color);
+    font-size: 16px;
+}
+.code-editor-input:focus{
+    outline: none;
+}
+
+.code-editor-input-editable-div{
+    overflow:auto;
+}
+
+.code-editor-autocomplete{
+    position:absolute;
+    left:0.7rem;
+    top: 0;
+    min-height: 20px;
+    min-width: 200px;
+    max-height: 200px;
+    background: #000000;
+    border: var(--main-border);
+    overflow-y: scroll;
+    display: none;
+}
+
+.code-editor-autocomplete button{
+    cursor:pointer;
+    background: none;
+    outline: none;
+    border: none;
+    display: block;
+    color:var(--light-green-color);
+    width: 100%;
+    text-align: left;
+}
+.code-editor-autocomplete button:hover, .code-editor-autocomplete button:focus{
+    background:rgba(255,255,255,0.1);
+    text-decoration: underline;
+}
 
 .joint-element {
     cursor: auto;
@@ -286,9 +287,7 @@ html, body {
     top: 1rem;
 }
 .code-editor-open-button{
-   top: 1rem;
-   left: 1rem;
-   width: 50px;
+   bottom: 1rem;
    display:none;
 }
 
@@ -367,6 +366,9 @@ table {
 #form_component input, #form_component select{
     margin-bottom: 1rem;
 }
+
+
+
 
 
 

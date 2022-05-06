@@ -4,16 +4,25 @@ const joint = window.joint;
 const dagre = window.dagre;
 const graphlib = window.graphlib;
 
-const diagram = {
+class baseDiagram {
 
-  paper:null,
-  graph:null,
-  scale:1,
-  origin:{x:0,y:0},
-  pan:{x:0, y:0},
-  flow:null,
+    constructor(id, modules){
 
-    init(element){
+      this.modules = modules;
+
+      const element = document.getElementById(id);
+      if (!element) return console.error('element not found', id);
+
+
+          this.paper = null;
+          this.graph = null;
+          this.scale = 1;
+          this.origin = {x:0,y:0};
+          this.pan = {x:0, y:0};
+          // this.flow = null;
+
+
+
           const namespace = joint.shapes;
           const graph = new joint.dia.Graph({}, { cellNamespace: namespace });
 
@@ -95,7 +104,7 @@ const diagram = {
           this.graph = graph;
           this.paper = paper;
 
-    },
+    }
 
   //...........UPDATE ELEMENTS AND LINKS
 
@@ -136,7 +145,7 @@ const diagram = {
       this.directedGraph();
       this.paper.unfreeze();
       document.dispatchEvent(new CustomEvent('diagram.header.change', { detail: flow[0].name }));
-  },
+  }
 
 
 
@@ -148,19 +157,19 @@ const diagram = {
       }
     }
     return null;
-  },
+  }
 
   createElementsANdLinks(){
 
 
-  },
+  }
 
   createElementAndLink(type, node, previous){
     const element = this.createElement(type, node);
     // if (type == 'main') console.log(node)
     const link = previous ? this.createLink(type, previous, element) : null;
     return {element, link}
-  },
+  }
 
   createElement(type, node){
 
@@ -247,7 +256,7 @@ const diagram = {
     element.prop('data', node);
 
     return element;
-  },
+  }
 
 
   createLink(type, source, target){
@@ -264,7 +273,7 @@ const diagram = {
               }
           });
       return link;
-  },
+  }
 
 
   directedGraph(){
@@ -285,7 +294,7 @@ const diagram = {
 
           // console.log('x:', graphBBox.x, 'y:', graphBBox.y)
           // console.log('width:', graphBBox.width, 'height:', graphBBox.height);
-  },
+  }
 
 
 
@@ -300,24 +309,24 @@ const diagram = {
     // element.toggle();
     // this.fitAncestors(element);
     // this.paper.unfreeze();
-  },
+  }
 
   expandEmbeds(element){
       const embeds = element.prop('data').embeds;
 
-  },
+  }
 
   expandEmbeds2(element){
       const embeds = element.prop('data').embeds;
 
-  },
+  }
 
   fitAncestors(element) {
       element.getAncestors().forEach((container) => {
           // console.log(container.id)
         if (container.fitChildren && !container.get('collapsed')) container.fitChildren();
       })
-  },
+  }
 
   //..........ZOOM
 
@@ -330,7 +339,7 @@ const diagram = {
     this.scaleToPoint(newScale, x, y);
 
     return false;
-  },
+  }
 
   scaleToPoint(nextScale, x, y){
     const MIN_SCALE = 0.2;
@@ -366,7 +375,7 @@ const diagram = {
         document.dispatchEvent(new CustomEvent('diagram.scale.change', { detail: nextScale }));
         // this.updateScale(nextScale);
     }
-  },
+  }
 
 //.......PAN
 
@@ -378,12 +387,12 @@ const diagram = {
 
         this.paper.el.classList.add('cursor-grabbing');
         return false;
-    },
+    }
 
     blankPointerupHandler(evt, x, y){
         this.paper.el.classList.remove('cursor-grabbing');
         return false;
-    },
+    }
 
     blankPointermoveHandler(evt, x, y){
         //  console.log(x, this.origin.x, y, this.origin.y, evt.offsetX);
@@ -400,9 +409,9 @@ const diagram = {
         }
 
         return false;
-    },
+    }
 
 
 };
 
-export default diagram;
+export default baseDiagram;
