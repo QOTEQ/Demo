@@ -33,6 +33,7 @@ window.addEventListener('load', async () => {
 
     api.bos.on('notify', (notify) => {
       console.log(JSON.stringify(notify));
+      alert(notify.step);
     });
 
     api.bos.on('invoke', (invoke) => {

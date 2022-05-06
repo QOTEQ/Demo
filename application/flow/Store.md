@@ -2,6 +2,7 @@
 
 * Form `Order`
 * Reservation
+  + Notify "Reservation was successful"
   - Notify "The product is out of stock"
 * Form `Payment`
 * Payment
