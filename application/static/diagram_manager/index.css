@@ -86,7 +86,38 @@ html, body {
     max-width: 200px;
 }
 
+#jstree_search_container{
+    padding: 1rem;
+    width: 100%;
+    box-sizing: border-box;
+    position:relative;
+}
+#jstree_search_container i{
+    position: absolute;
+    top: 1.2rem;
+    right: 1.2rem;
+    color: #cdcdcd;
+}
 
+
+#jstree_search{
+    width: 100%;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.jstree-default-dark{
+    font-size: .9rem
+}
+
+.jstree-default-dark .jstree-anchor{
+    color:#ffffff;
+}
+
+
+.jstree-default-dark .jstree-anchor.jstree-search{
+    color: var(--light-green-color);
+}
 
 
 #router-view{
@@ -374,6 +405,7 @@ table {
 
 .modal-dialog-background{
     position: fixed;
+    z-index: 9999;
     top: 0;
     left: 0;
     width: 100%;
@@ -446,6 +478,39 @@ table {
     justify-content: flex-end;
 }
 
+#flow-diagram-popup{
+    height: 100%;
+    min-height: 400px;
+    background: grey;
+    /* display: flex; */
+}
+#flow-diagram-popup-paper{
+    /* min-width: 100%;
+    min-height: 400px; */
+
+    box-sizing: border-box;
+    /* border: 1px solid #E2E2E2; */
+    background-color: #000000;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    min-height: 400px;
+    flex-grow: 1;
+
+}
+
+#hidden-elements{
+    position:absolute;
+    top:0;
+    left:0;
+    left: -9999px;
+
+    min-width: 800px;
+    min-height: 500px;
+    /* background: #666666; */
+    visibility: hidden;
+}
+
 .CodeMirror{
     height: 100%;
     width: 100%;
@@ -454,3 +519,5 @@ table {
 .display-none{
     display: none;
 }
+
+

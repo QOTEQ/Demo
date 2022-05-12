@@ -49,7 +49,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.3/mode/markdown/markdown.min.js" integrity="sha512-DmMao0nRIbyDjbaHc8fNd3kxGsZj9PCU6Iu/CeidLQT9Py8nYVA5n0PqXYmvqNdU+lCiTHOM/4E7bM/G8BttJg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.3/addon/fold/markdown-fold.min.js" integrity="sha512-wt5QmuOCP04rfwZuOYrr1/JH1hEzpshezbxP7sDYaiU74vQoK49s6KAIEEPl8DD3rsXtMeVg6WsDrb53q705Lw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-  <script src="https://unpkg.com/node-sql-parser/umd/postgresql.umd.js"></script>
+  <!-- <script src="https://unpkg.com/node-sql-parser/umd/postgresql.umd.js"></script> -->
 
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
@@ -84,6 +84,10 @@
         </div>
         <div id="main-screen">
             <div id="side-panel">
+              <div id="jstree_search_container">
+                <input id="jstree_search" type="text"/>
+                <i class="fas fa-search"></i>
+              </div>
               <div id="jstree"></div>
             </div>
 
@@ -167,9 +171,13 @@
             </div>
         </div>
       </div>
-      <div id="hidden-elements" class="display-none">
+      <div id="hidden-elements" class="diaplay-none">
           <div id="test_component">test component</div>
-          <form id="form_component"></form>
+          <form id="form_component">form component</form>
+          <div id="flow-diagram-popup">
+            <!-- flow diagram popup -->
+            <div id="flow-diagram-popup-paper"></div>
+          </div>
       </div>
 </body>
 </html>

@@ -1,200 +1,89 @@
 /* eslint-disable */
-
+const joint = window.joint;
 import baseDiagram from './baseDiagram.js';
-
+import flowElement from './elements/flowElement.js';
 class flowDiagram extends baseDiagram {
   constructor(id, modules) {
     super(id, modules);
-
-    this.paper.on(
-      'group:toggle:button:pointerdown',
-      this.groupToggleButtonPointerdownHandler.bind(this)
-    );
   }
 
   //...........UPDATE ELEMENTS AND LINKS
 
-  updateGraph(flow) {
-    // console.log(flow)
+  updateGraph(procedures) {
+    //  console.log(procedures[0])
     this.paper.freeze();
     this.graph.clear();
-    let cells = [],
-      step,
-      main,
-      previous,
-      node,
-      element,
-      link,
-      pair;
 
-    if (!flow[0] || !flow[0].body || !flow[0].body.length) {
-      console.error('flow is empty');
+    if (!procedures[0] || !procedures[0].body || !procedures[0].body.length) {
+      // console.error('no procedures');
       this.paper.unfreeze();
       return;
     }
 
-    const types = ['success', 'fail', 'finalization'];
-    step = flow[0].body[0];
-    previous = this.createElement('main', {
-      command: step.command,
-      embeds: this.findEmbeds(flow, step.command),
-    });
-    cells.push(previous);
+    const { elements, links } = this.createElementsAndLinks(procedures[0].body);
 
-    // console.log(flow[0]);
-    for (let i = 0; i < flow[0].body.length; i++) {
-      step = flow[0].body[i];
-      let nextStep = flow[0].body[i + 1];
-      //{command: 'Form "Order"', success: Array(0), fail: Array(0), finalization: Array(0)}
-
-      for (let type of types) {
-        for (let command of step[type]) {
-          pair = this.createElementAndLink(
-            type,
-            { command, embeds: this.findEmbeds(flow, command) },
-            previous
-          );
-          cells.push(pair.element);
-          if (pair.link) cells.push(pair.link);
-        }
-        if (type == 'success' && nextStep) {
-          pair = this.createElementAndLink(
-            'main',
-            {
-              command: nextStep.command,
-              embeds: this.findEmbeds(flow, nextStep.command),
-            },
-            previous
-          );
-          main = pair.element;
-          cells.push(pair.element);
-          if (pair.link) cells.push(pair.link);
-        }
-      }
-      previous = main;
-    }
-    this.graph.addCells(cells);
+    this.graph.addCells(elements);
+    this.graph.addCells(links);
 
     this.directedGraph();
     this.paper.unfreeze();
-    this.modules.events.emit('diagram.header.change', flow[0].name);
+    this.modules.events.emit(this.id + ':header:change', procedures[0].name);
   }
 
-  findEmbeds(flow, command) {
-    for (let i = 1; i < flow.length; i++) {
-      if (command == flow[i].name) {
-        // console.log(command, flow[i].name)
-        return flow[i].body;
+  createElementsAndLinks(procedureBody) {
+    const result = { elements: [], links: [] };
+
+    if (!Array.isArray(procedureBody) || !procedureBody.length) return result;
+
+    const types = ['success', 'fail', 'finalization'];
+
+    const firstStep = this.createElement(procedureBody[0]);
+    let previousStep = firstStep,
+      main,
+      element,
+      link;
+
+    for (let i = 0; i < procedureBody.length; i++) {
+      let step = procedureBody[i];
+      let nextStep = procedureBody[i + 1];
+
+      for (let type of types) {
+        for (let node of step[type]) {
+          element = this.createElement(node);
+          result.elements.push(element);
+          if (previousStep)
+            result.links.push(this.createLink(previousStep, element));
+        }
+
+        if (type == 'success' && nextStep) {
+          main = element = this.createElement(nextStep);
+          result.elements.push(element);
+          if (previousStep)
+            result.links.push(this.createLink(previousStep, element));
+        }
       }
-    }
-    return null;
-  }
 
-  createElementsANdLinks() {}
-
-  createElementAndLink(type, node, previous) {
-    const element = this.createElement(type, node);
-    element.prop(['data', 'embeds'], node.embeds);
-    // if (type == 'main') console.log(node)
-    const link = previous ? this.createLink(type, previous, element) : null;
-    return { element, link };
-  }
-
-  createElement(type, node) {
-    const colors = {
-      main: '#2f76fe',
-      success: '#cdcdcd',
-      fail: '#e6c456',
-      finalization: '#e6c456',
-    };
-    const width = 150,
-      height = 60;
-    const text = node.command;
-
-    // console.log(node)
-
-    const wraptext = joint.util.breakText(text, {
-      width: width,
-      height: height,
-    });
-
-    const options = {
-      z: 1,
-      size: { width, height },
-      attrs: {
-        body: {
-          fill: type == 'finalization' ? '#990004' : '#000000',
-          stroke: colors[type],
-          strokeWidth: 2,
-        },
-        label: {
-          text: wraptext,
-          fill: colors[type],
-        },
-      },
-    };
-
-    if (node.embeds) {
-      // console.log(node.embeds);
-
-      options.attrs.toggleButton = {
-        refDx: -20,
-        // refDx: (- buttonSize * 2 - (headerHeight - buttonSize) / 2) - 5,
-        // refY: 0,
-        cursor: 'pointer',
-        event: 'group:toggle:button:pointerdown',
-        title: 'Collapse / Expand',
-      };
-
-      options.attrs.toggleButtonBorder = {
-        fill: 'transparent',
-        stroke: colors[type],
-        strokeWidth: 2,
-        width: '20',
-        height: '20',
-        class: 'embeds-button',
-      };
-      options.attrs.toggleButtonIcon = {
-        stroke: colors[type],
-        strokeWidth: 2,
-        d: 'M 4 10 16 10 M 10 4 10 16', //'M 4 14 16 14'
-      };
-
-      options.markup = [
-        {
-          tagName: 'rect',
-          selector: 'body',
-        },
-        {
-          tagName: 'g',
-          selector: 'toggleButton',
-          children: [
-            {
-              tagName: 'rect',
-              selector: 'toggleButtonBorder',
-            },
-            {
-              tagName: 'path',
-              selector: 'toggleButtonIcon',
-            },
-          ],
-        },
-        {
-          tagName: 'text',
-          selector: 'label',
-        },
-      ];
+      previousStep = main;
     }
 
-    const element = new joint.shapes.standard.Rectangle(options);
+    result.elements.unshift(firstStep);
+
+    return result;
+  }
+
+  createElement(node) {
+    const element = flowElement.newElement(node);
     element.prop('data', node);
-
+    if (node.body) {
+      // console.log(node.body)
+    }
     return element;
   }
 
-  createLink(type, source, target) {
+  createLink(source, target) {
+    const type = target.prop('data').type;
     const colors = {
-      main: '#2f76fe',
+      step: '#2f76fe',
       success: '#00e60a',
       fail: '#ff1a00',
       finalization: '#ff1a00',
@@ -216,44 +105,101 @@ class flowDiagram extends baseDiagram {
   //..........GROUPS
 
   groupToggleButtonPointerdownHandler(elementView) {
-    var element = elementView.model;
-    const data = element.prop('data');
-    // console.log('groupToggleButtonPointerdownHandler', element.prop('data'));
-    const steps = [];
+    const parent = elementView.model;
+    const data = parent.prop('data');
+    if (!data || !data.body) return;
 
-    if (data && data.embeds) {
-      this.modules.dialogs.alert(
-        '<ol class="flow-diagram-embeds-list">' +
-          data.embeds
-            .map((e) => `<li>${e.command.replaceAll('`', '')}</li>`)
-            .join('') +
-          '</ol>',
-        { title: data.command, buttons: { ok: true } }
-      );
-    }
+    this.modules.events.emit(this.id + ':group:toggle', data);
+
+    // console.log(data.id);
+    // console.log('groupToggleButtonPointerdownHandler', data);
+    // const steps = [];
+
+    // this.modules.dialogs.alert(
+    //   '<ol class="flow-diagram-embeds-list">' +
+    //     data.body
+    //       .map((e) => `<li>${e.name.replaceAll('`', '')}</li>`)
+    //       .join('') +
+    //     '</ol>',
+    //   { title: data.name, buttons: { ok: true } }
+    // );
 
     // this.deselectAllElements();
+
     // this.paper.freeze();
-    // element.toggle();
-    // this.fitAncestors(element);
+    // const children = parent.children;
+    // // console.log(element, children)
+
+    // if (!children.length) {
+    //   const res = this.createElementsAndLinks(data.body);
+    //   const {elements, links} = res;
+    //   // console.log(data.body);
+    //   // console.log(res)
+    //   // console.log(element)
+    //   //  console.log(cells)
+    //   //  console.log(links)
+
+    //    this.graph.addCells(elements);
+    //    this.graph.addCells(links);
+
+    //   // for (let child of elements) {
+    //   //   element.embed(child);
+    //   // }
+    //   // for (let link of links) {
+    //   //    link.reparent();
+    //   // }
+    //   parent.children = elements;
+
+    //   this.resizeParent(parent, elements, links)
+    //   // this.directedGraph(elements);
+    //   // element.toggle(false);
+    // }
+
+    // parent.toggle();
+    // // this.fitAncestors(parent);
+    // // this.directedGraph();
     // this.paper.unfreeze();
   }
 
-  expandEmbeds(element) {
-    const embeds = element.prop('data').embeds;
-  }
+  // resizeParent(parent, elements, links){
+  //     // const cells = elements.concat(links);
+  //     this.directedGraph(elements);
+  //     const clone = parent.clone();
+  //     this.graph.addCell(clone);
+  //     for (let element of elements) {
+  //         clone.embed(element);
+  //     }
+  //     clone.fitEmbeds({padding: { top: 30, left: 10, right: 10, bottom: 10 }});
+  //     parent.resize(clone.getBBox().width, clone.getBBox().height);
+  //     this.directedGraph();
+  //     const dx = parent.getBBox().x - clone.getBBox().x;
+  //     const dy = parent.getBBox().y - clone.getBBox().y;
+  //     clone.translate(dx, dy);
+  //     clone.remove();
+  //     for (let element of elements) {
+  //       parent.embed(element);
+  //     }
+  //     for (let link of links) {
+  //       link.reparent();
+  //     }
 
-  expandEmbeds2(element) {
-    const embeds = element.prop('data').embeds;
-  }
+  // }
 
-  fitAncestors(element) {
-    element.getAncestors().forEach((container) => {
-      // console.log(container.id)
-      if (container.fitChildren && !container.get('collapsed'))
-        container.fitChildren();
-    });
-  }
+  // expandEmbeds(element) {
+  //   const embeds = element.prop('data').body;
+  // }
+
+  // expandEmbeds2(element) {
+  //   const embeds = element.prop('data').body;
+  // }
+
+  // fitAncestors(element) {
+  //   element.getAncestors().forEach((container) => {
+  //     // console.log(container.id)
+  //     if (container.fitChildren && !container.get('collapsed'))
+  //       container.fitChildren();
+  //   });
+  // }
 }
 
 export default flowDiagram;

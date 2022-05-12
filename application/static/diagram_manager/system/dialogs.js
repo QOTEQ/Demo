@@ -55,8 +55,12 @@ const dialogs = {
         // return buttonElement;
       });
     }
-    if (config.close !== undefined && !config.close) {
-      this.elements.modalDialogHeaderButtonClose.classList.add('display-none');
+
+    if (config.cancel !== undefined && !config.cancel) {
+      this.elements.modalDialogButtonCancel.classList.add('display-none');
+    }
+    if (config.ok !== undefined && !config.ok) {
+      this.elements.modalDialogButtonOk.classList.add('display-none');
     }
 
     this.elements.modalDialogBackground.classList.add('active');
