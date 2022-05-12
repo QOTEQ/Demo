@@ -88,7 +88,7 @@ class controllerDiagram {
 
   async startFlow() {
     const name = this.processes[this.selectedProcessIndex].url;
-    const start = await window.api.bos.startFlow({ name: 'Order product\r' });
+    const start = await window.api.bos.startFlow({ name: 'Order product' });
     console.log(start);
 
     // const test = document.getElementById('test_component')
