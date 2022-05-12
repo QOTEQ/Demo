@@ -6,6 +6,7 @@ const graphlib = window.graphlib;
 
 class baseDiagram {
   constructor(id, modules) {
+    this.id = id;
     this.modules = modules;
 
     const element = document.getElementById(id);
@@ -290,12 +291,12 @@ class baseDiagram {
     return link;
   }
 
-  directedGraph() {
-    const graphBBox = joint.layout.DirectedGraph.layout(this.graph, {
+  directedGraph(cells) {
+    const graphBBox = joint.layout.DirectedGraph.layout(cells || this.graph, {
       nodeSep: 50,
       edgeSep: 80,
-      marginX: 200,
-      marginY: 100,
+      marginX: 50,
+      marginY: 50,
       rankDir: 'LR',
       resizeClusters: true,
       clusterPadding: { left: 10, right: 10, top: 54, bottom: 10 },
@@ -382,7 +383,7 @@ class baseDiagram {
 
       // const event = new CustomEvent('diagram.scale.change', { scale: nextScale });
       document.dispatchEvent(
-        new CustomEvent('diagram.scale.change', { detail: nextScale })
+        new CustomEvent(this.id + ':scale:change', { detail: nextScale })
       );
       // this.updateScale(nextScale);
     }

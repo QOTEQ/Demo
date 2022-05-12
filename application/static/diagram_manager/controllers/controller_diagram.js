@@ -1,6 +1,6 @@
 /* eslint-disable */
-import parser from './../utilities/parser.js';
-import diagram from './../editors/flowDiagram.js';
+import parser from './../utilities/line_parser.js';
+import flowDiagram from './../editors/flowDiagram.js';
 import codeEditor from './../editors/flowMarkdownEditor.js';
 import form from './../editors/form.js';
 
@@ -16,6 +16,7 @@ class controllerDiagram {
       processRunButton: document.getElementById('process-run-button'),
       processSaveButton: document.getElementById('process-save-button'),
       paper: document.getElementById('diagram-paper'),
+      popup: document.getElementById('flow-diagram-popup'),
       // diagramHeader:document.getElementById('diagram-header'),
       // processesSelect:document.getElementById('processes-select'),
       scale: document.getElementById('diagram-scale'),
@@ -53,11 +54,18 @@ class controllerDiagram {
     // this.elements.processesSelect.addEventListener('change', e=>{this.fetchProcess(this.elements.processesSelect.selectedIndex)})
     // modules.events.listen('diagram.header.change', e => this.elements.diagramHeader.innerText = e);
     modules.events.listen(
-      'diagram.scale.change',
+      'diagram-paper:scale:change',
       (e) => (this.elements.scale.innerText = e.toFixed(1))
     );
 
-    this.diagram = new diagram('diagram-paper', modules);
+    this.diagram = new flowDiagram('diagram-paper', modules);
+    this.popupDiagram = new flowDiagram('flow-diagram-popup-paper', modules);
+
+    this.modules.events.listen(
+      'diagram-paper:group:toggle',
+      this.diagramShowEmbeds.bind(this)
+    );
+
     this.form = new form('form_component', modules);
 
     this.codeEditor = new codeEditor('diagram-code-editor', modules, {});
@@ -81,6 +89,8 @@ class controllerDiagram {
       this.startFlow.bind(this)
     );
     this.modules.events.listen('bos:form', this.form.show.bind(this.form));
+    this.modules.events.listen('bos:notify', this.showNotification.bind(this));
+    // this.showCodeEditor(false);
   }
   loadData() {
     this.fetchProcess(this.selectedProcessIndex);
@@ -98,6 +108,10 @@ class controllerDiagram {
     //     dialogs.close();
     //   }}]
     // });
+  }
+
+  showNotification(data) {
+    // this.modules.dialogs.alert(data.step, {title:'Notification'});
   }
 
   async fetchProcess(index = 0) {
@@ -125,10 +139,28 @@ class controllerDiagram {
 
     // this.updateValue(this.processes[index].data);
     // console.log(this.processes[index].data);
-    this.updateValue(this.processes[index].data);
+    // this.updateValue(this.processes[index].data);
     // this.showCodeEditor(false);
 
     // console.log(parser.parseScript(this.text));
+  }
+
+  diagramShowEmbeds(data) {
+    // console.log(this.elements.popup)
+    this.modules.dialogs.open(this.elements.popup, {
+      title: data.name,
+      cancel: false,
+    });
+    this.popupDiagram.updateGraph([data]);
+
+    // this.modules.dialogs.alert(
+    //   '<ol class="flow-diagram-embeds-list">' +
+    //     data.body
+    //       .map((e) => `<li>${e.name.replaceAll('`', '')}</li>`)
+    //       .join('') +
+    //     '</ol>',
+    //   { title: data.name, buttons: { ok: true } }
+    // );
   }
 
   updateValue(text) {
@@ -159,11 +191,22 @@ class controllerDiagram {
   }
 
   diagramCodeEditorChanged(data) {
-    if (data.isOriginal)
-      this.elements.processSaveButton.setAttribute('disabled', true);
-    else this.elements.processSaveButton.removeAttribute('disabled');
-    const parsed = parser.parseProcess(data.text);
+    const { value, change } = data;
+
+    let parsed;
+    parsed = parser.parseProcess(value);
     this.diagram.updateGraph(parsed);
+
+    if (change.origin == 'setValue') {
+      this.elements.processSaveButton.setAttribute('disabled', true);
+    } else {
+      this.elements.processSaveButton.removeAttribute('disabled');
+      const sameLine = change.from.line == change.to.line;
+      if (change.origin == '+input') {
+      } else if (change.origin == '+delete') {
+      } else if (change.origin == 'paste') {
+      }
+    }
   }
 }
 

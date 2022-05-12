@@ -37,9 +37,10 @@ class FlowMarkdownEditor {
   }
 
   valueChanged(cm, change) {
-    console.log(change);
+    // console.log(change);
     this.modules.events.emit(this.id + ':input:change', {
-      text: cm.getValue(),
+      change,
+      value: cm.getValue(),
     });
   }
 
