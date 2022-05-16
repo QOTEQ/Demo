@@ -1,8 +1,8 @@
 /* eslint-disable */
-import parser from './../utilities/line_parser.js';
-import flowDiagram from './../editors/flowDiagram.js';
-import codeEditor from './../editors/flowMarkdownEditor.js';
-import form from './../editors/form.js';
+import parser from '../utilities/flow_parser.js';
+import flowDiagram from '../editors/flowDiagram.js';
+import codeEditor from '../editors/flowMarkdownEditor.js';
+import form from '../editors/form.js';
 
 class controllerDiagram {
   constructor(id, modules) {
@@ -45,7 +45,12 @@ class controllerDiagram {
       (this.editingLine = 0);
     this.codeEditorShown = true;
     this.autocomleteShown = false;
-    this.processes = [{ name: 'Order product', url: 'Store' }];
+    this.processes = [
+      {
+        name: 'Order product',
+        url: 'Store',
+      },
+    ];
     this.subprocesses = [];
     this.selectedProcessIndex = 0;
 
@@ -90,7 +95,7 @@ class controllerDiagram {
     );
     this.modules.events.listen('bos:form', this.form.show.bind(this.form));
     this.modules.events.listen('bos:notify', this.showNotification.bind(this));
-    // this.showCodeEditor(false);
+    this.showCodeEditor(false);
   }
   loadData() {
     this.fetchProcess(this.selectedProcessIndex);
@@ -98,7 +103,9 @@ class controllerDiagram {
 
   async startFlow() {
     const name = this.processes[this.selectedProcessIndex].url;
-    const start = await window.api.bos.startFlow({ name: 'Order product' });
+    const start = await window.api.bos.startFlow({
+      name: 'Order product',
+    });
     console.log(start);
 
     // const test = document.getElementById('test_component')
@@ -126,7 +133,9 @@ class controllerDiagram {
       const url = this.processes[index].url;
       try {
         // console.log(window.api.bos)
-        const fetched = await window.api.bos.getFlow({ name: url });
+        const fetched = await window.api.bos.getFlow({
+          name: url,
+        });
         this.processes[index].data = fetched.source;
         // this.processes[index].data = '';
       } catch (e) {
@@ -188,13 +197,15 @@ class controllerDiagram {
     this.elements.codeEditor.style.display = show ? 'flex' : 'none';
     this.elements.codeEditorContainer.style.width = show ? '' : '0';
     this.elements.codeEditorDivider.style.width = show ? '' : '0';
+    if (show) this.codeEditor.markdownCodeMirror.refresh();
   }
 
   diagramCodeEditorChanged(data) {
     const { value, change } = data;
 
-    let parsed;
-    parsed = parser.parseProcess(value);
+    // console.log(value, change)
+
+    let parsed = parser.parseProcess(value);
     this.diagram.updateGraph(parsed);
 
     if (change.origin == 'setValue') {

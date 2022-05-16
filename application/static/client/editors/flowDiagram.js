@@ -15,19 +15,20 @@ class flowDiagram extends baseDiagram {
     this.graph.clear();
 
     if (!procedures[0] || !procedures[0].body || !procedures[0].body.length) {
-      // console.error('no procedures');
+      console.error('no procedures');
       this.paper.unfreeze();
       return;
     }
 
     const { elements, links } = this.createElementsAndLinks(procedures[0].body);
+    console.log(procedures[0].body[0].name, elements[0].prop('data').name);
 
     this.graph.addCells(elements);
     this.graph.addCells(links);
 
     this.directedGraph();
     this.paper.unfreeze();
-    this.modules.events.emit(this.id + ':header:change', procedures[0].name);
+    // this.modules.events.emit(this.id + ':header:change', procedures[0].name);
   }
 
   createElementsAndLinks(procedureBody) {
