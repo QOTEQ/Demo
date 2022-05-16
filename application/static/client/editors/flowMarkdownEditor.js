@@ -17,7 +17,9 @@ class FlowMarkdownEditor {
       lineNumbers: true,
       lineWrapping: true,
       highlightFormatting: true,
-      extraKeys: { 'Ctrl-Space': 'autocomplete' },
+      extraKeys: {
+        'Ctrl-Space': 'autocomplete',
+      },
       gutters: ['CodeMirror-lint-markers'],
       lint: true,
     };
@@ -34,10 +36,11 @@ class FlowMarkdownEditor {
 
   setValue(text) {
     this.markdownCodeMirror.setValue(text);
+    // this.markdownCodeMirror.refresh()
   }
 
   valueChanged(cm, change) {
-    // console.log(change);
+    //  console.log(cm.getValue(), change);
     this.modules.events.emit(this.id + ':input:change', {
       change,
       value: cm.getValue(),

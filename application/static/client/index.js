@@ -1,14 +1,15 @@
 /* eslint-disable */
-// const { createPopper } = window.Popper;
 
 import events from './system/events.js';
 import transport from './system/transport.js';
 import store from './system/store.js';
 import router from './system/router.js';
 import dialogs from './system/dialogs.js';
+import Tooltip from './system/tooltip.js';
 
 import controllerTopHeader from './controllers/controller_topheader.js';
-import controllerSidepanel from './controllers/controller_sidepanel.js';
+import controllerActivityBar from './controllers/controller_activitybar.js';
+import controllerSideBar from './controllers/controller_sidebar.js';
 import controllerMain from './controllers/controller_main.js';
 import controllerJavascript from './controllers/controller_javascript.js';
 import controllerMarkdown from './controllers/controller_markdown.js';
@@ -50,9 +51,14 @@ const dm = {
     // this.initControls();
 
     dialogs.init();
+    this.tooltip = new Tooltip();
 
     this.controllerTopHeader = new controllerTopHeader('top-header', modules);
-    this.controllerSidepanel = new controllerSidepanel('side-panel', modules);
+    this.controllerActivityBar = new controllerActivityBar(
+      'activity-bar',
+      modules
+    );
+    this.controllerSideBar = new controllerSideBar('side-bar', modules);
     this.controllerMain = new controllerMain('main-view', modules);
     this.controllerJavascript = new controllerJavascript(
       'javascript-view',

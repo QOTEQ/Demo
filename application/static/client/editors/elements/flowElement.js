@@ -246,13 +246,24 @@ if (!joint.shapes.html.FlowElement) {
 }
 const element = new joint.shapes.html.FlowElement();
 
+function generateRandomColorHex() {
+  return (
+    '#' +
+    ('00000' + Math.floor(Math.random() * Math.pow(16, 6)).toString(16)).slice(
+      -6
+    )
+  );
+}
+
 const FlowElement = {
   newElement(node) {
     // console.log(config.size);
 
     const cell = element.clone();
-    if (node.id) cell.prop('id', node.id);
-    else if (node.index !== undefined) cell.prop('id', 'node' + node.index);
+
+    //....IF YOU PROVIDE THE SAME ID TO THE ELEMENT IT DOES NOT REDARAW THE ELEMENT, SO USE updateCell PER LINE EDITING
+    // if (node.id) cell.prop('id', node.id);
+    // else if (node.index !== undefined) cell.prop('id', 'node' + node.index);
 
     const colors = {
       step: '#2f76fe',
@@ -273,6 +284,7 @@ const FlowElement = {
     });
 
     cell.size(width, height);
+    //
     cell.attr(['body', 'fill'], type == 'finalization' ? '#990004' : '#000000');
     cell.attr(['body', 'stroke'], colors[type]);
     cell.attr(['label', 'text'], wraptext);
