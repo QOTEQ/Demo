@@ -5,6 +5,7 @@
 - Frontend stack: vanilla.js
 
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/b-os-tech/Demo/blob/master/LICENSE)
+[![StackShare](http://img.shields.io/badge/tech-stack-0690fa.svg?style=flat)](https://stackshare.io/metarhia/private-cloud)
 
 ## Concept
 
